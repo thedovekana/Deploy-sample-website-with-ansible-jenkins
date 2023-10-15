@@ -2,6 +2,8 @@
 - hosts: all
   gather_facts: false
   become: yes
+  vars:
+    git_repo: https://github.com/thedovekana/Deploy-sample-website-with-ansible-jenkins.git
   tasks:
 
     - name: Install the required packages
@@ -21,12 +23,17 @@
         enabled: yes
      
     - name: clone the website code
-      get_url:
-        url: "{{ website_url }}"
-        dest: /var/www/html/
+      git:
+        repo: "{{ git_repo }}"
+        dest: /tmp/
 
-    - name: remove the playbook file
-      command: rm -f 
+    - name: Remove the default file
+      command: rm -f /var/www/html/*
+
+    - name: copy the website files
+      copy:
+        src: /tm/Deploy-sample-website-with-ansible-jenkins/wave_cafe_project/*
+        dest: /var/www/html/ 
    
     - name: restart nginx service
       service:
