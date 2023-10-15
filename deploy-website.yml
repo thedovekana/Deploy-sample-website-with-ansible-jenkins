@@ -11,31 +11,37 @@
         name:
           - wget
           - unzip
-          - nginx
+          - httpd
           - git
         state: present
         update_cache: true
     
-    - name: start and enable nginx service
+    - name: start and enable httpd service
       service:
-        name: nginx
+        name: httpd
         state: started
         enabled: yes
      
     - name: Remove the default file
-      command: rm -f /var/www/html/* && rm -Rf /tmp/*
+      command: rm -f /var/www/html/*
+    
+    - name: Create a temporary folder
+      file:
+        path: /tmp/website/
+        state: directory
     
     - name: clone the website code
       git:
         repo: "{{ git_repo }}"
-        dest: /tmp/    
+        dest: /tmp/website
 
     - name: copy the website files
       copy:
-        src: /tm/Deploy-sample-website-with-ansible-jenkins/wave_cafe_project/*
+        src: /tmp/website/wave_cafe_project/
         dest: /var/www/html/ 
+        remote_src: yes
    
-    - name: restart nginx service
+    - name: restart httpd service
       service:
-        name: nginx
+        name: httpd
         state: restarted
