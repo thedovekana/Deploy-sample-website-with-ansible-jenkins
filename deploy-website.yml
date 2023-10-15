@@ -22,13 +22,13 @@
         state: started
         enabled: yes
      
+    - name: Remove the default file
+      command: rm -f /var/www/html/* && rm -Rf /tmp/*
+    
     - name: clone the website code
       git:
         repo: "{{ git_repo }}"
-        dest: /tmp/
-
-    - name: Remove the default file
-      command: rm -f /var/www/html/*
+        dest: /tmp/    
 
     - name: copy the website files
       copy:
