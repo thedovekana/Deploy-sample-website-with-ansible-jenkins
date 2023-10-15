@@ -1,0 +1,34 @@
+---
+- hosts: all
+  gather_facts: false
+  become: yes
+  tasks:
+
+    - name: Install the required packages
+      package:
+        name:
+          - wget
+          - unzip
+          - nginx
+          - git
+        state: present
+        update_cache: true
+    
+    - name: start and enable nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+     
+    - name: clone the website code
+      get_url:
+        url: "{{ website_url }}"
+        dest: /var/www/html/
+
+    - name: remove the playbook file
+      command: rm -f 
+   
+    - name: restart nginx service
+      service:
+        name: nginx
+        state: restarted
