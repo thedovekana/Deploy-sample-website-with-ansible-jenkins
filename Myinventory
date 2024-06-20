@@ -16,10 +16,10 @@
 ## 192.168.100.10
 
 [servers]
-node1 ansible_host=192.168.99.11
-node2 ansible_host=192.168.99.12
-node3 ansible_host=192.168.99.13
-node4 ansibel_host=192.168.99.14
+docker-node ansible_host=192.168.99.11
+#node2 ansible_host=192.168.99.12
+#node3 ansible_host=192.168.99.13
+#node4 ansibel_host=192.168.99.14
 
 [all:vars]
 ansible_user=vagrant
